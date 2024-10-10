@@ -27,7 +27,7 @@ app.use(bodyParser.urlencoded({ extended: true, limit: '50mb' }));
 // Parse cookies
 app.use(cookieParser());
 
-// Configure Cross-Origin Resource Sharing (CORS)
+// Configure Cross-Origin Resource Sharing (CORS)s
 app.use(
   cors({
     origin: [
