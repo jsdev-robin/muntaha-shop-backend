@@ -16,7 +16,9 @@ process.on('uncaughtException', (err: Error) => {
 const server = http.createServer(app);
 
 // Connect to MongoDB
-connectDatabase(EnvConfig.DB)
+connectDatabase(
+  'mongodb+srv://jsdevrobin:8j29cFcSEVtaqpCj@muntaha.6yl8c.mongodb.net/'
+)
   .then(() => {
     const port = parseInt(EnvConfig.PORT);
     if (isNaN(port)) {
