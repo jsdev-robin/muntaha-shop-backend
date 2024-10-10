@@ -5,12 +5,19 @@ import morgan from 'morgan';
 import session from 'express-session';
 import cors from 'cors';
 import path from 'path';
-
+import helmet from 'helmet';
 import EnvConfig from './src/config/envConfig';
 import ApiError from './src/middlewares/error/ApiError';
 import globalErrorHandler from './src/middlewares/error/globalError';
+import dotenv from 'dotenv';
 
-export const app: Application = express();
+// Load environment variables from .env file
+dotenv.config();
+
+const app: Application = express();
+
+// Set security-related HTTP headers
+app.use(helmet());
 
 // Development logging
 if (process.env.NODE_ENV === 'development') {
@@ -27,37 +34,44 @@ app.use(bodyParser.urlencoded({ extended: true, limit: '50mb' }));
 // Parse cookies
 app.use(cookieParser());
 
-// Configure Cross-Origin Resource Sharing (CORS)s
+// Configure Cross-Origin Resource Sharing (CORS)
 app.use(
   cors({
-    origin: [
-      EnvConfig.ISPRODUCTION
-        ? 'https://mun-shop-frontend.vercel.app'
-        : 'http://localhost:3000',
-      'http://localhost:3000',
-    ],
+    origin: EnvConfig.ISPRODUCTION
+      ? 'https://mun-shop-frontend.vercel.app'
+      : 'http://localhost:3000',
     credentials: true,
   })
 );
 
+// Session management with a secure store
 app.use(
   session({
-    secret: 'your-secret-key',
+    secret: process.env.SESSION_SECRET ?? 'your-default-secret',
     resave: false,
-    saveUninitialized: true,
+    saveUninitialized: false,
+    cookie: {
+      httpOnly: true,
+      secure: EnvConfig.ISPRODUCTION,
+    },
   })
 );
 
-app.get('/', (req: Request, res: Response, next: NextFunction) => {
+// Sample route
+app.get('/', (req: Request, res: Response) => {
   res.status(200).json({
     status: true,
-    message: 'Api working well!',
+    message: 'API is working well!',
   });
 });
 
-// Global Error
-app.all('*', (req, res, next) => {
+// Handle 404 errors
+app.all('*', (req: Request, res: Response, next: NextFunction) => {
   next(new ApiError(`Can't find ${req.originalUrl} on this server!`, 404));
 });
 
+// Global error handling middleware
 app.use(globalErrorHandler);
+
+// Export the app
+export default app;
