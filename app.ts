@@ -37,7 +37,7 @@ app.use(cookieParser());
 app.use(
   cors({
     origin: EnvConfig.ISPRODUCTION
-      ? 'https://mun-shop-frontend.vercel.app'
+      ? 'http://localhost:3000'
       : 'http://localhost:3000',
     credentials: true,
   })
