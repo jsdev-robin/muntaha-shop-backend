@@ -6,13 +6,12 @@ import session from 'express-session';
 import cors from 'cors';
 import path from 'path';
 import helmet from 'helmet';
+
 import EnvConfig from './src/config/envConfig';
 import ApiError from './src/middlewares/error/ApiError';
 import globalErrorHandler from './src/middlewares/error/globalError';
-import dotenv from 'dotenv';
-
-// Load environment variables from .env file
-dotenv.config();
+import sellerRoute from './src/routes/sellerRoutes';
+import { initializePassport, passport } from './src/auth/passport';
 
 const app: Application = express();
 
@@ -64,6 +63,24 @@ app.get('/', (req: Request, res: Response) => {
     message: 'API is working well!',
   });
 });
+
+// Serialize user into the session
+passport.serializeUser((user: any, done: any) => {
+  done(null, user);
+});
+
+// Deserialize user from the session
+passport.deserializeUser((user: any, done: any) => {
+  done(null, user);
+});
+
+// Initialize Passport
+initializePassport();
+app.use(passport.session());
+app.use(passport.initialize());
+
+// Global route
+app.use('/api/v1/seller', sellerRoute);
 
 // Handle 404 errors
 app.all('*', (req: Request, res: Response, next: NextFunction) => {

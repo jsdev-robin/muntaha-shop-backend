@@ -20,6 +20,15 @@ interface ProcessEnv {
   ACCESS_TOKEN_EXPIRE?: string;
   REFRESH_TOKEN_EXPIRE?: string;
   REDIS_URL?: string;
+  BYTE_KEY_16?: string;
+  SECRET?: string;
+  GOOGLE_CLIENT_ID?: string;
+  GOOGLE_CLIENT_SECRET?: string;
+  GITHUB_CLIENT_ID?: string;
+  GITHUB_CLIENT_SECRET?: string;
+  CLIENT_URL?: string;
+  GOOGLE_CALLBACK_URL?: string;
+  GITHUB_CALLBACK_URL?: string;
 }
 
 function validateEnvVariables(env: ProcessEnv): void {
@@ -41,6 +50,15 @@ function validateEnvVariables(env: ProcessEnv): void {
     'ACCESS_TOKEN_EXPIRE',
     'REFRESH_TOKEN_EXPIRE',
     'REDIS_URL',
+    'BYTE_KEY_16',
+    'SECRET',
+    'GOOGLE_CLIENT_ID',
+    'GOOGLE_CLIENT_SECRET',
+    'GITHUB_CLIENT_ID',
+    'GITHUB_CLIENT_SECRET',
+    'CLIENT_URL',
+    'GOOGLE_CALLBACK_URL',
+    'GITHUB_CALLBACK_URL',
   ];
 
   const missingVars = requiredVars.filter(
@@ -74,6 +92,15 @@ const {
   ACCESS_TOKEN_EXPIRE = '',
   REFRESH_TOKEN_EXPIRE = '',
   REDIS_URL = '',
+  BYTE_KEY_16 = '',
+  SECRET = '',
+  GOOGLE_CLIENT_ID = '',
+  GOOGLE_CLIENT_SECRET = '',
+  GITHUB_CLIENT_ID = '',
+  GITHUB_CLIENT_SECRET = '',
+  CLIENT_URL = '',
+  GOOGLE_CALLBACK_URL = '',
+  GITHUB_CALLBACK_URL = '',
 } = env;
 
 const ISPRODUCTION = NODE_ENV === 'production';
@@ -98,6 +125,15 @@ const EnvConfig = {
   ACCESS_TOKEN_EXPIRE,
   REFRESH_TOKEN_EXPIRE,
   REDIS_URL,
+  BYTE_KEY_16,
+  SECRET,
+  GOOGLE_CLIENT_ID,
+  GOOGLE_CLIENT_SECRET,
+  GITHUB_CLIENT_ID,
+  GITHUB_CLIENT_SECRET,
+  CLIENT_URL,
+  GOOGLE_CALLBACK_URL,
+  GITHUB_CALLBACK_URL,
 };
 
 export default EnvConfig;
