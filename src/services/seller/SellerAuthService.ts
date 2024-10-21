@@ -293,7 +293,7 @@ class SellerAuthService<T extends ISeller> extends Utils {
       }
 
       // Create a new user with verified status
-      await this.Model.create({
+      const newUser = await this.Model.create({
         fname: this.capitalize(fname),
         lname: this.capitalize(lname),
         email,
@@ -302,15 +302,13 @@ class SellerAuthService<T extends ISeller> extends Utils {
       });
 
       // Send success response
-      // res.status(HttpStatusCode.CREATED).json({
-      //   status: Status.SUCCESS,
-      //   newUser,
-      //   message: `Congratulations, ${this.capitalize(
-      //     fname
-      //   )}! Your account has been successfully activated.`,
-      // });
-
-      res.redirect(`http://localhost:3000/seller/login`);
+      res.status(HttpStatusCode.CREATED).json({
+        status: Status.SUCCESS,
+        newUser,
+        message: `Congratulations, ${this.capitalize(
+          fname
+        )}! Your account has been successfully activated.`,
+      });
     }
   );
 
