@@ -27,6 +27,7 @@ const commonOptions = {
   httpOnly: true,
   sameSite: EnvConfig.ISPRODUCTION ? ('none' as const) : ('lax' as const),
   secure: EnvConfig.ISPRODUCTION,
+  domain: 'muntaha-shop-frontend.vercel.app',
 };
 
 /**
