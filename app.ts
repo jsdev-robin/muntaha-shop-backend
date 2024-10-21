@@ -55,7 +55,11 @@ app.use(
     methods: ['GET', 'POST', 'PUT', 'DELETE'],
     credentials: true,
     origin: EnvConfig.ISPRODUCTION
-      ? ['https://muntaha-shop-frontend.vercel.app', 'http://localhost:3000']
+      ? [
+          'https://muntaha-shop-frontend.vercel.app',
+          'http://localhost:3000',
+          'http://localhost:5173',
+        ]
       : 'http://localhost:3000',
   })
 );
