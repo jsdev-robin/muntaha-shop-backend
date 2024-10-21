@@ -27,6 +27,7 @@ const commonOptions = {
   httpOnly: true,
   sameSite: EnvConfig.ISPRODUCTION ? 'None' : 'Lax',
   secure: EnvConfig.ISPRODUCTION,
+  partitioned: true,
 };
 
 /**
