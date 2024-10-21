@@ -44,7 +44,6 @@ class SellerAuthService<T extends ISeller> extends Utils {
 
     // Set cookies for access and refresh tokens
     res.cookie('seller_access_token', accessToken, {
-      signed: true,
       expires: new Date(Date.now() + 3 * 24 * 60 * 60 * 1000),
       httpOnly: true,
       secure: true,
@@ -52,7 +51,6 @@ class SellerAuthService<T extends ISeller> extends Utils {
       priority: 'high',
     });
     res.cookie('seller_refresh_token', refreshToken, {
-      signed: true,
       expires: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000),
       httpOnly: true,
       secure: true,
