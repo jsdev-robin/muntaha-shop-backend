@@ -11,7 +11,6 @@ import EnvConfig from './src/config/envConfig';
 import ApiError from './src/middlewares/error/ApiError';
 import globalErrorHandler from './src/middlewares/error/globalError';
 import sellerRoute from './src/routes/sellerRoutes';
-import { initializePassport, passport } from './src/auth/passport';
 
 const app: Application = express();
 
@@ -82,21 +81,6 @@ app.get('/', (req: Request, res: Response) => {
     message: 'API is working well!',
   });
 });
-
-// Serialize user into the session
-passport.serializeUser((user: any, done: any) => {
-  done(null, user);
-});
-
-// Deserialize user from the session
-passport.deserializeUser((user: any, done: any) => {
-  done(null, user);
-});
-
-// Initialize Passport
-initializePassport();
-app.use(passport.session());
-app.use(passport.initialize());
 
 // Global route
 app.use('/api/v1/seller', sellerRoute);
