@@ -36,10 +36,11 @@ app.use(cookieParser());
 // Configure Cross-Origin Resource Sharing (CORS)
 app.use(
   cors({
+    methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
+    credentials: true,
     origin: EnvConfig.ISPRODUCTION
       ? 'http://localhost:3000'
       : 'http://localhost:3000',
-    credentials: true,
   })
 );
 
