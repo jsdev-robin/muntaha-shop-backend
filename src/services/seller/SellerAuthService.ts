@@ -15,10 +15,10 @@ import EnvConfig from '../../config/envConfig';
 import SendEmail from '../../utils/SendEmail';
 import Status from '../../utils/status';
 import { EncryptedData } from '../../security/cryptoService';
-import {
-  accessTokenOptions,
-  refreshTokenOptions,
-} from '../../utils/cookieOptions';
+// import {
+//   accessTokenOptions,
+//   refreshTokenOptions,
+// } from '../../utils/cookieOptions';
 import redisClient from '../../config/ioredis';
 
 class SellerAuthService<T extends ISeller> extends Utils {
@@ -43,8 +43,22 @@ class SellerAuthService<T extends ISeller> extends Utils {
     const refreshToken = user?.signRefreshToken();
 
     // Set cookies for access and refresh tokens
-    res.cookie('seller_access_token', accessToken, accessTokenOptions);
-    res.cookie('seller_refresh_token', refreshToken, refreshTokenOptions);
+    res.cookie('seller_access_token', accessToken, {
+      signed: true,
+      expires: new Date(Date.now() + 3 * 24 * 60 * 60 * 1000),
+      httpOnly: true,
+      secure: true,
+      sameSite: 'none',
+      priority: 'high',
+    });
+    res.cookie('seller_refresh_token', refreshToken, {
+      signed: true,
+      expires: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000),
+      httpOnly: true,
+      secure: true,
+      sameSite: 'none',
+      priority: 'high',
+    });
 
     // Store the user session data in Redis with a unique key derived from the user's ID.
     await redisClient.set(this.redisKey(user?._id), JSON.stringify(user));
@@ -457,8 +471,22 @@ class SellerAuthService<T extends ISeller> extends Utils {
       req.user = user;
 
       // Set cookies for access and refresh tokens
-      res.cookie('seller_access_token', accessToken, accessTokenOptions);
-      res.cookie('seller_refresh_token', refreshToken, accessTokenOptions);
+      res.cookie('seller_access_token', accessToken, {
+        signed: true,
+        expires: new Date(Date.now() + 3 * 24 * 60 * 60 * 1000),
+        httpOnly: true,
+        secure: true,
+        sameSite: 'none',
+        priority: 'high',
+      });
+      res.cookie('seller_refresh_token', refreshToken, {
+        signed: true,
+        expires: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000),
+        httpOnly: true,
+        secure: true,
+        sameSite: 'none',
+        priority: 'high',
+      });
 
       // Store user session in Redis with a 7-day expiration
       await redisClient.set(this.redisKey(user._id), JSON.stringify(user), {
