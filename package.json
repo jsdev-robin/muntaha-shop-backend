@@ -7,7 +7,7 @@
     "dev": "ts-node-dev --respawn --transpile-only server.ts",
     "start": "node dist/server.js",
     "start:prod": "NODE_ENV=production ts-node-dev --respawn --transpile-only server.ts",
-    "build": "tsc",
+    "build": "npm install && tsc",
     "jsdoc": "jsdoc -c jsdoc.json",
     "debug": "ndb dist/server.js"
   },
