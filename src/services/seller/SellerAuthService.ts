@@ -17,7 +17,7 @@ import Status from '../../utils/status';
 import { EncryptedData } from '../../security/cryptoService';
 import {
   accessTokenOptions,
-  // refreshTokenOptions,
+  refreshTokenOptions,
 } from '../../utils/cookieOptions';
 import redisClient from '../../config/ioredis';
 
@@ -43,29 +43,14 @@ class SellerAuthService<T extends ISeller> extends Utils {
     const refreshToken = user?.signRefreshToken();
 
     // Set cookies for access and refresh tokens
-    res.cookie('seller_access_token', accessToken, {
-      expires: new Date(Date.now() + 3 * 60 * 1000),
-      httpOnly: true,
-      secure: true,
-      domain: 'muntaha-shop-frontend.vercel.app',
-    });
-    res.cookie('seller_refresh_token', refreshToken, {
-      expires: new Date(Date.now() + 9 * 60 * 1000),
-      httpOnly: true,
-      secure: true,
-      domain: 'muntaha-shop-frontend.vercel.app',
-    });
+    res.cookie('seller_access_token', accessToken, accessTokenOptions);
+    res.cookie('seller_refresh_token', refreshToken, refreshTokenOptions);
 
     // Store the user session data in Redis with a unique key derived from the user's ID.
     await redisClient.set(this.redisKey(user?._id), JSON.stringify(user));
 
     // Send a JSON response back to the client with the status, a welcome message, user information, and the access token.
-    res.status(statusCode).json({
-      success: Status.SUCCESS,
-      message: `Welcome back ${user?.fname}.`,
-      user,
-      accessToken,
-    });
+    res.redirect(EnvConfig.CLIENT_URL);
   }
 
   restrictTo = (...roles: Role[]) => {
