@@ -25,9 +25,8 @@ const refreshTokenExpires: number = parseInt(
  */
 const commonOptions = {
   httpOnly: true,
-  sameSite: EnvConfig.ISPRODUCTION ? 'None' : 'Lax',
+  sameSite: 'none' as const,
   secure: EnvConfig.ISPRODUCTION,
-  domain: 'localhost',
 };
 
 /**
