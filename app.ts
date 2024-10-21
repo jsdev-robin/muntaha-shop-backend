@@ -70,6 +70,7 @@ app.use(
     cookie: {
       httpOnly: true,
       secure: EnvConfig.ISPRODUCTION,
+      sameSite: 'none',
     },
   })
 );
