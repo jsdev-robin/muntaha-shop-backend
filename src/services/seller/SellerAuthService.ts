@@ -301,7 +301,7 @@ class SellerAuthService<T extends ISeller> extends Utils {
         isVerified: true,
       });
 
-      // Send success response
+      // Send success responses
       res.status(HttpStatusCode.CREATED).json({
         status: Status.SUCCESS,
         newUser,
