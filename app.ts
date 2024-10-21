@@ -51,7 +51,7 @@ app.use(cookieParser());
 // Configure Cross-Origin Resource Sharing (CORS)
 app.use(
   cors({
-    methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
+    methods: ['GET', 'POST', 'PUT', 'DELETE'],
     credentials: true,
     origin: EnvConfig.ISPRODUCTION
       ? 'http://localhost:3000'
