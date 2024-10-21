@@ -310,7 +310,7 @@ class SellerAuthService<T extends ISeller> extends Utils {
       //   )}! Your account has been successfully activated.`,
       // });
 
-      res.redirect(`${EnvConfig.CLIENT_URL}/seller/login`);
+      res.redirect(`http://localhost:3000/seller/login`);
     }
   );
 
