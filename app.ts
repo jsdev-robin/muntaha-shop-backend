@@ -7,11 +7,10 @@ import cors from 'cors';
 import path from 'path';
 import helmet from 'helmet';
 
-// import EnvConfig from './src/config/envConfig';
+import EnvConfig from './src/config/envConfig';
 import ApiError from './src/middlewares/error/ApiError';
 import globalErrorHandler from './src/middlewares/error/globalError';
 import sellerRoute from './src/routes/sellerRoutes';
-import EnvConfig from './src/config/envConfig';
 
 const app: Application = express();
 
@@ -35,42 +34,18 @@ app.use(bodyParser.urlencoded({ extended: true, limit: '50mb' }));
 // Parse cookies
 app.use(cookieParser());
 
-// Express.js CORS setup
-// app.use((req, res, next) => {
-//   res.setHeader('Access-Control-Allow-Origin', 'http://localhost:3000'); // Replace with your frontend domain
-//   res.setHeader('Access-Control-Allow-Credentials', 'true'); // Allow credentials
-//   res.setHeader(
-//     'Access-Control-Allow-Methods',
-//     'GET, POST, OPTIONS, PUT, PATCH, DELETE'
-//   );
-//   res.setHeader(
-//     'Access-Control-Allow-Headers',
-//     'X-Requested-With,content-type'
-//   );
-//   next();
-// });
-
 // Configure Cross-Origin Resource Sharing (CORS)
-// app.use(
-//   cors({
-//     methods: ['GET', 'POST', 'PUT', 'DELETE'],
-//     credentials: true,
-//     origin: EnvConfig.ISPRODUCTION
-//       ? [
-//           'https://muntaha-shop-frontend.vercel.app',
-//           'http://localhost:3000',
-//           'http://localhost:5173',
-//         ]
-//       : 'http://localhost:3000',
-//   })
-// );
-
 app.use(
   cors({
-    origin: 'http://localhost:3000', // Replace with the frontend URL
-    methods: ['GET', 'POST', 'OPTIONS'],
-    allowedHeaders: ['Content-Type'],
-    credentials: true, // Allow sending cookies with the request
+    methods: ['GET', 'POST', 'PUT', 'DELETE'],
+    credentials: true,
+    origin: EnvConfig.ISPRODUCTION
+      ? [
+          'https://muntaha-shop-frontend.vercel.app',
+          'http://localhost:3000',
+          'http://localhost:5173',
+        ]
+      : 'http://localhost:3000',
   })
 );
 
