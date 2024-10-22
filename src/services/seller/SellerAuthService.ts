@@ -51,7 +51,7 @@ class SellerAuthService<T extends ISeller> extends Utils {
 
     // Send a JSON response back to the client with the status, a welcome message, user information, and the access token.
     res.status(statusCode).json({
-      success: true,
+      success: Status.SUCCESS,
       message: `Welcome back ${user.fname}.`,
       user,
       accessToken,
