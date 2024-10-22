@@ -7,7 +7,7 @@ import cors from 'cors';
 import path from 'path';
 import helmet from 'helmet';
 
-import EnvConfig from './src/config/envConfig';
+// import EnvConfig from './src/config/envConfig';
 import ApiError from './src/middlewares/error/ApiError';
 import globalErrorHandler from './src/middlewares/error/globalError';
 import sellerRoute from './src/routes/sellerRoutes';
