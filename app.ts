@@ -6,6 +6,7 @@ import session from 'express-session';
 import cors from 'cors';
 import path from 'path';
 import helmet from 'helmet';
+import { rateLimit } from 'express-rate-limit';
 
 import EnvConfig from './src/config/envConfig';
 import ApiError from './src/middlewares/error/ApiError';
@@ -42,6 +43,17 @@ app.use(bodyParser.urlencoded({ extended: true, limit: '50mb' }));
 
 // Parse cookies
 app.use(cookieParser());
+
+// Apply the rate limiting middleware to all requests.
+const limiter = rateLimit({
+  windowMs: 15 * 60 * 1000, // 15 minutes
+  limit: 100, // Limit each IP to 100 requests per `window` (here, per 15 minutes).
+  standardHeaders: 'draft-7', // draft-6: `RateLimit-*` headers; draft-7: combined `RateLimit` header
+  legacyHeaders: false, // Disable the `X-RateLimit-*` headers.
+  // store: ... , // Redis, Memcached, etc. See below.
+});
+
+app.use(limiter);
 
 // Session management with a secure store
 app.use(
