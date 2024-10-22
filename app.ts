@@ -65,8 +65,10 @@ app.use(
 
 app.use(
   cors({
-    origin: 'http://localhost:3000',
-    credentials: true, // Allow sending cookies
+    origin: EnvConfig.ISPRODUCTION
+      ? 'https://muntaha-shop-frontend.vercel.app'
+      : 'http://localhost:3000',
+    credentials: true,
   })
 );
 
