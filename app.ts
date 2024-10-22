@@ -2,7 +2,7 @@ import express, { Application, NextFunction, Request, Response } from 'express';
 import bodyParser from 'body-parser';
 import cookieParser from 'cookie-parser';
 import morgan from 'morgan';
-import session from 'express-session';
+// import session from 'express-session';
 import cors from 'cors';
 import path from 'path';
 import helmet from 'helmet';
@@ -50,33 +50,40 @@ app.use(cookieParser());
 // });
 
 // Configure Cross-Origin Resource Sharing (CORS)
+// app.use(
+//   cors({
+//     methods: ['GET', 'POST', 'PUT', 'DELETE'],
+//     credentials: true,
+//     origin: EnvConfig.ISPRODUCTION
+//       ? [
+//           'https://muntaha-shop-frontend.vercel.app',
+//           'http://localhost:3000',
+//           'http://localhost:5173',
+//         ]
+//       : 'http://localhost:3000',
+//   })
+// );
+
 app.use(
   cors({
-    methods: ['GET', 'POST', 'PUT', 'DELETE'],
+    origin: 'http://localhost:3000',
     credentials: true,
-    origin: EnvConfig.ISPRODUCTION
-      ? [
-          'https://muntaha-shop-frontend.vercel.app',
-          'http://localhost:3000',
-          'http://localhost:5173',
-        ]
-      : 'http://localhost:3000',
   })
 );
 
 // Session management with a secure store
-app.use(
-  session({
-    secret: process.env.SESSION_SECRET ?? 'your-default-secret',
-    resave: false,
-    saveUninitialized: false,
-    cookie: {
-      httpOnly: true,
-      secure: EnvConfig.ISPRODUCTION,
-      sameSite: 'none',
-    },
-  })
-);
+// app.use(
+//   session({
+//     secret: process.env.SESSION_SECRET ?? 'your-default-secret',
+//     resave: false,
+//     saveUninitialized: false,
+//     cookie: {
+//       httpOnly: true,
+//       secure: EnvConfig.ISPRODUCTION,
+//       sameSite: 'none',
+//     },
+//   })
+// );
 
 // Sample route
 app.get('/', (req: Request, res: Response) => {
