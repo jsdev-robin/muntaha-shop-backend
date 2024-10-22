@@ -50,7 +50,12 @@ class SellerAuthService<T extends ISeller> extends Utils {
     await redisClient.set(this.redisKey(user?._id), JSON.stringify(user));
 
     // Send a JSON response back to the client with the status, a welcome message, user information, and the access token.
-    res.redirect(EnvConfig.CLIENT_URL);
+    res.status(statusCode).json({
+      success: true,
+      message: `Welcome back ${user.fname}.`,
+      user,
+      accessToken,
+    });
   }
 
   restrictTo = (...roles: Role[]) => {

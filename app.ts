@@ -2,7 +2,7 @@ import express, { Application, NextFunction, Request, Response } from 'express';
 import bodyParser from 'body-parser';
 import cookieParser from 'cookie-parser';
 import morgan from 'morgan';
-// import session from 'express-session';
+import session from 'express-session';
 import cors from 'cors';
 import path from 'path';
 import helmet from 'helmet';
@@ -34,6 +34,20 @@ app.use(bodyParser.urlencoded({ extended: true, limit: '50mb' }));
 // Parse cookies
 app.use(cookieParser());
 
+// Session management with a secure store
+app.use(
+  session({
+    secret: 'I love her',
+    resave: false,
+    saveUninitialized: false,
+    cookie: {
+      httpOnly: true,
+      secure: EnvConfig.ISPRODUCTION,
+      sameSite: 'none',
+    },
+  })
+);
+
 // Configure Cross-Origin Resource Sharing (CORS)
 app.use(
   cors({
@@ -48,20 +62,6 @@ app.use(
       : 'http://localhost:3000',
   })
 );
-
-// Session management with a secure store
-// app.use(
-//   session({
-//     secret: process.env.SESSION_SECRET ?? 'your-default-secret',
-//     resave: false,
-//     saveUninitialized: false,
-//     cookie: {
-//       httpOnly: true,
-//       secure: EnvConfig.ISPRODUCTION,
-//       sameSite: 'none',
-//     },
-//   })
-// );
 
 // Sample route
 app.get('/', (req: Request, res: Response) => {
