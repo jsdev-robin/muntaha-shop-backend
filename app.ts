@@ -44,25 +44,16 @@ app.use(bodyParser.urlencoded({ extended: true, limit: '50mb' }));
 app.use(cookieParser());
 
 // Session management with a secure store
-// app.use(
-//   session({
-//     secret: 'I love her',
-//     resave: false,
-//     saveUninitialized: false,
-//     cookie: {
-//       httpOnly: true,
-//       secure: EnvConfig.ISPRODUCTION,
-//       sameSite: 'none',
-//     },
-//   })
-// );
-
 app.use(
-  cors({
-    origin: EnvConfig.ISPRODUCTION
-      ? 'https://muntaha-shop-frontend.vercel.app'
-      : 'http://localhost:3000',
-    credentials: true,
+  session({
+    secret: 'I love her',
+    resave: false,
+    saveUninitialized: false,
+    cookie: {
+      httpOnly: true,
+      secure: EnvConfig.ISPRODUCTION,
+      sameSite: 'none',
+    },
   })
 );
 
