@@ -11,6 +11,7 @@ import helmet from 'helmet';
 import ApiError from './src/middlewares/error/ApiError';
 import globalErrorHandler from './src/middlewares/error/globalError';
 import sellerRoute from './src/routes/sellerRoutes';
+import EnvConfig from './src/config/envConfig';
 
 const app: Application = express();
 
@@ -50,24 +51,17 @@ app.use(cookieParser());
 // });
 
 // Configure Cross-Origin Resource Sharing (CORS)
-// app.use(
-//   cors({
-//     methods: ['GET', 'POST', 'PUT', 'DELETE'],
-//     credentials: true,
-//     origin: EnvConfig.ISPRODUCTION
-//       ? [
-//           'https://muntaha-shop-frontend.vercel.app',
-//           'http://localhost:3000',
-//           'http://localhost:5173',
-//         ]
-//       : 'http://localhost:3000',
-//   })
-// );
-
 app.use(
   cors({
-    origin: 'http://localhost:3000',
+    methods: ['GET', 'POST', 'PUT', 'DELETE'],
     credentials: true,
+    origin: EnvConfig.ISPRODUCTION
+      ? [
+          'https://muntaha-shop-frontend.vercel.app',
+          'http://localhost:3000',
+          'http://localhost:5173',
+        ]
+      : 'http://localhost:3000',
   })
 );
 
