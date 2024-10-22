@@ -6,6 +6,7 @@ import session from 'express-session';
 import cors from 'cors';
 import path from 'path';
 import helmet from 'helmet';
+import { createProxyMiddleware } from 'http-proxy-middleware';
 
 import EnvConfig from './src/config/envConfig';
 import ApiError from './src/middlewares/error/ApiError';
@@ -35,38 +36,41 @@ app.use(bodyParser.urlencoded({ extended: true, limit: '50mb' }));
 app.use(cookieParser());
 
 // Session management with a secure store
-app.use(
-  session({
-    secret: 'I love her',
-    resave: false,
-    saveUninitialized: false,
-    cookie: {
-      httpOnly: true,
-      secure: EnvConfig.ISPRODUCTION,
-      sameSite: 'none',
-    },
-  })
-);
-
-// Configure Cross-Origin Resource Sharing (CORS)
 // app.use(
-//   cors({
-//     methods: ['GET', 'POST', 'PUT', 'DELETE'],
-//     credentials: true,
-//     origin: EnvConfig.ISPRODUCTION
-//       ? [
-//           'https://muntaha-shop-frontend.vercel.app',
-//           'http://localhost:3000',
-//           'http://localhost:5173',
-//         ]
-//       : 'http://localhost:3000',
+//   session({
+//     secret: 'I love her',
+//     resave: false,
+//     saveUninitialized: false,
+//     cookie: {
+//       httpOnly: true,
+//       secure: true,
+//       sameSite: 'none',
+//     },
 //   })
 // );
 
+// create the proxy
+/** @type {import('http-proxy-middleware/dist/types').RequestHandler<express.Request, express.Response>} */
+const exampleProxy = createProxyMiddleware({
+  target: 'http://localhost:3000', // target host with the same base path
+  changeOrigin: true, // needed for virtual hosted sites
+});
+
+// mount `exampleProxy` in web server
+app.use('/api', exampleProxy);
+
+// Configure Cross-Origin Resource Sharing (CORS)
 app.use(
   cors({
-    origin: 'http://localhost:3000',
-    credentials: true, // Allow sending cookies
+    methods: ['GET', 'POST', 'PUT', 'DELETE'],
+    credentials: true,
+    origin: EnvConfig.ISPRODUCTION
+      ? [
+          'https://muntaha-shop-frontend.vercel.app',
+          'http://localhost:3000',
+          'http://localhost:5173',
+        ]
+      : 'http://localhost:3000',
   })
 );
 
