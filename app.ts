@@ -51,17 +51,26 @@ app.use(cookieParser());
 // });
 
 // Configure Cross-Origin Resource Sharing (CORS)
+// app.use(
+//   cors({
+//     methods: ['GET', 'POST', 'PUT', 'DELETE'],
+//     credentials: true,
+//     origin: EnvConfig.ISPRODUCTION
+//       ? [
+//           'https://muntaha-shop-frontend.vercel.app',
+//           'http://localhost:3000',
+//           'http://localhost:5173',
+//         ]
+//       : 'http://localhost:3000',
+//   })
+// );
+
 app.use(
   cors({
-    methods: ['GET', 'POST', 'PUT', 'DELETE'],
-    credentials: true,
-    origin: EnvConfig.ISPRODUCTION
-      ? [
-          'https://muntaha-shop-frontend.vercel.app',
-          'http://localhost:3000',
-          'http://localhost:5173',
-        ]
-      : 'http://localhost:3000',
+    origin: 'http://localhost:3000', // Replace with the frontend URL
+    methods: ['GET', 'POST', 'OPTIONS'],
+    allowedHeaders: ['Content-Type'],
+    credentials: true, // Allow sending cookies with the request
   })
 );
 
