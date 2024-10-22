@@ -43,7 +43,13 @@ class SellerAuthService<T extends ISeller> extends Utils {
     const refreshToken = user?.signRefreshToken();
 
     // Set cookies for access and refresh tokens
-    res.cookie('seller_access_token', accessToken, accessTokenOptions);
+    res.cookie('seller_access_token', accessToken, {
+      httpOnly: true,
+      secure: true, // Secure over HTTPS only
+      sameSite: 'none', // Allows cross-site cookies
+      // domain: '.your-heroku-domain.com', // Server's domain
+      maxAge: 24 * 60 * 60 * 1000, // 1 day
+    });
     res.cookie('seller_refresh_token', refreshToken, refreshTokenOptions);
 
     // Store the user session data in Redis with a unique key derived from the user's ID.

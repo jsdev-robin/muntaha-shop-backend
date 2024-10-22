@@ -22,7 +22,16 @@ if (process.env.NODE_ENV === 'development') {
   app.use(morgan('dev'));
 }
 
+// Proxy middleware
 app.set('trust proxy', 1);
+
+// Configure Cross-Origin Resource Sharing (CORS)
+app.use(
+  cors({
+    origin: true,
+    credentials: true,
+  })
+);
 
 // Serving static files
 app.use(express.static(path.join(__dirname, './src/views')));
@@ -35,31 +44,16 @@ app.use(bodyParser.urlencoded({ extended: true, limit: '50mb' }));
 app.use(cookieParser());
 
 // Session management with a secure store
-app.use(
-  session({
-    secret: 'I love her',
-    resave: false,
-    saveUninitialized: false,
-    cookie: {
-      httpOnly: true,
-      secure: EnvConfig.ISPRODUCTION,
-      sameSite: 'none',
-    },
-  })
-);
-
-// Configure Cross-Origin Resource Sharing (CORS)
 // app.use(
-//   cors({
-//     methods: ['GET', 'POST', 'PUT', 'DELETE'],
-//     credentials: true,
-//     origin: EnvConfig.ISPRODUCTION
-//       ? [
-//           'https://muntaha-shop-frontend.vercel.app',
-//           'http://localhost:3000',
-//           'http://localhost:5173',
-//         ]
-//       : 'http://localhost:3000',
+//   session({
+//     secret: 'I love her',
+//     resave: false,
+//     saveUninitialized: false,
+//     cookie: {
+//       httpOnly: true,
+//       secure: EnvConfig.ISPRODUCTION,
+//       sameSite: 'none',
+//     },
 //   })
 // );
 
