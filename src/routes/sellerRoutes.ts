@@ -40,4 +40,10 @@ router.get(
   sellerAuthController.getUserInfo
 );
 
+router.get(
+  '/seller/update-access-token',
+  sellerAuthController.isAuthenticated,
+  sellerAuthController.updateAccessToken
+);
+
 export default router;
