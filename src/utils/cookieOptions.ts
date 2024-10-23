@@ -34,8 +34,8 @@ const commonOptions = {
  */
 export const accessTokenOptions = {
   ...commonOptions,
-  expires: new Date(Date.now() + accessTokenExpires * 60 * 1000), // 5 minutes
-  maxAge: accessTokenExpires * 60 * 1000,
+  expires: new Date(Date.now() + accessTokenExpires * 24 * 60 * 60 * 1000), // 5 days
+  maxAge: accessTokenExpires * 24 * 60 * 60 * 1000,
 };
 
 /**
