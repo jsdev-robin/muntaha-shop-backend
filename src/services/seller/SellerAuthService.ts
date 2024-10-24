@@ -378,10 +378,12 @@ class SellerAuthService<T extends ISeller> extends Utils {
       await redisClient.del(this.redisKey(user?._id));
 
       // Send successful logout response
-      res.status(HttpStatusCode.OK).json({
-        status: Status.SUCCESS,
-        message: 'You have been successfully logged out.',
-      });
+      // res.status(HttpStatusCode.OK).json({
+      //   status: Status.SUCCESS,
+      //   message: 'You have been successfully logged out.',
+      // });
+
+      res.redirect('/');
     }
   );
 

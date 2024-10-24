@@ -34,15 +34,14 @@ router.post(
 
 router.get(
   '/me',
-  sellerAuthController.isAuthenticated,
   sellerAuthController.updateAccessToken,
+  sellerAuthController.isAuthenticated,
   sellerAuthController.restrictTo('seller'),
   sellerAuthController.getUserInfo
 );
 
 router.get(
   '/seller/update-access-token',
-  sellerAuthController.isAuthenticated,
   sellerAuthController.updateAccessToken
 );
 
